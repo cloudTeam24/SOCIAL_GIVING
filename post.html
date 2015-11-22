@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Case</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-signin-client_id" content="411218153361-471lpvqtvgrlfe3dd39c5ej3k8lr8301.apps.googleusercontent.com">
+  <link href="css/style.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel = "stylesheet" href = "./css/navcss.css" type="text/css"/>
+  <link href='http://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'> 
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script>
+var placeSearch, autocomplete;
+
+function initAutocomplete() {
+  // Create the autocomplete object, restricting the search to geographical
+  // location types.
+  autocomplete = new google.maps.places.Autocomplete(
+      /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+      {types: ['geocode']}); 
+}
+function geolocate() {
+  document.getElementById('autocomplete').value='';
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTDXZw4TvfKogqUxSveg6w8098V-jUKBg&signed_in=true&libraries=places&callback=initAutocomplete"
+        async defer></script>
+
+<body>
+<nav class="navbar navbar-inverse navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="#">Profile</a></li>
+        <li><a href="/post?user_email={{values['user_email']}}">Post</a></li>
+        <li><a href="#">Link</a></li>
+        <li >
+          <a href="/logout" >Sign out</a></li>
+      </ul>
+    </nav>
+<div class="cont">
+  <div class="main">
+		<form action="/category" method="post" id="form">
+
+		   <div class="lable-2">
+		        <input type="text" class="text"  value="Item Name" name="item_name" pattern="^(?!.*Item Name).*$"
+            oninvalid="setCustomValidity('Please enter Item Name')" oninput="setCustomValidity('')" onfocus="if(this.value.substring(0,9)=='Item Name'){this.value='';}" onblur="if (this.value == '') {this.value = 'Item Name';}">
+
+            Categories:
+            <select name="Category" form="form" class="text">
+            	{% for cat in values['list'] %}
+            	<option value="{{cat}}">{{cat}}</option>
+            	{% endfor %}
+            </select>
+		    
+		
+		     <input type="text" class="text" value="Address" id="autocomplete" name="item_address" pattern="^(?!.*Address).*$" 
+            oninvalid="setCustomValidity(' Address Required')" oninput="setCustomValidity('')"
+            onFocus="geolocate();" onblur="if (this.value == '') {this.value = 'Address';}" >
+            <input type="hidden" name="Emailid" value="{{values['Emailid']}}">
+            <div><input type="file" name="image"/></div>
+
+		   </div>
+		  
+		 
+		   <div class="submit">
+			  <input type="submit"  value="Post Item" >
+		   </div>
+		   <div class="clear"> </div>
+		</form>
+		<!-----//end-main---->
+		</div>
+  </div>
+  </body>
+</html>
+
+
