@@ -9,8 +9,11 @@ handlers:
   static_dir: css
 - url: /.*
   script: Cloud_Project.app
+<<<<<<< HEAD
 - url: /js
   static_dir: js
+=======
+>>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
 
 
 

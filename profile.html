@@ -127,8 +127,12 @@ $('#user_contact').keypress(function(key){
       <ul class="nav navbar-nav navbar-right">
         <li class="active"><a href="#">Profile</a></li>
         <li><a href="/post">Post</a></li>
+<<<<<<< HEAD
         <li><a href="/Category">Categories</a></li> 
         <li><a href ="/history">History</a></li>
+=======
+ 
+>>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
          <li class="dropdown">
          {% set count = 0 %}
          {% for i in values['Notifications'] %}
@@ -161,7 +165,11 @@ $('#user_contact').keypress(function(key){
       <td>{{post.item_name}} <span class="badge">{{count_j}}</span></td>
       
       <td>
+<<<<<<< HEAD
         <i class="fa fa-pencil button alterar"><a href="/itempage?item_key={{post.key.urlsafe()}}" /></i>
+=======
+        <i class="fa fa-pencil button alterar"></i>
+>>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
         <i class="fa fa-trash button excluir"></i>
       </td>
     </tr>

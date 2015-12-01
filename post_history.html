@@ -6,14 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-signin-client_id" content="411218153361-471lpvqtvgrlfe3dd39c5ej3k8lr8301.apps.googleusercontent.com">
   <link href="css/style.css" rel='stylesheet' type='text/css' />
+<<<<<<< HEAD
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+=======
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+>>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
   <link rel = "stylesheet" href = "./css/navcss.css" type="text/css"/>
   <link href='http://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'> 
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<<<<<<< HEAD
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 </head>
+=======
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+>>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
 <style type="text/css">
     .bs-example{
       margin: 20px;
@@ -24,13 +33,18 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTDXZw4TvfKogqUxSveg6w8098V-jUKBg&signed_in=true&libraries=places&callback=initAutocomplete"
         async defer></script>
 
+<<<<<<< HEAD
 <body style= "background:none;">
+=======
+<body style="background:none;">
+>>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
 <nav class="navbar navbar-inverse navbar-static-top">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">WebSiteName</a>
     </div>
       <ul class="nav navbar-nav navbar-right">
+<<<<<<< HEAD
         <li><a href="/signupNext?user_email={{values['user_email']}}">Profile</a></li>
         <li><a href="/post?user_email={{values['user_email']}}">Post</a></li>
         <li><a href="/Category?user_email={{values['user_email']}}">Categories</a></li>
@@ -173,6 +187,134 @@
   </div>
 
    
+=======
+        <li class="active"><a href="#">Profile</a></li>
+        <li><a href="/post">Post</a></li>
+        <li><a href="#">Link</a></li>
+        <li >
+          <a href="/logout" >Sign out</a></li>
+      </ul>
+    </nav>
+
+
+
+    <div class="container">    
+        <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">                    
+            <div class="panel panel-info" >
+                    <div class="panel-heading">
+                        <div class="panel-title">Sign In</div>
+                    </div>     
+
+                    <div style="padding-top:30px" class="panel-body" >
+                      
+  <table  border="1" class="table table-hover"   style="width:80%;margin:8%;" >
+  <thead>
+      <tr>
+        <th>Item Name</th>
+        <th>Category</th>
+        <th>Address</th>
+        <th>Date </th>
+        <th>Image</th>
+      </tr>
+    </thead>
+
+    {% for post in values['posts'] %}
+    <th>
+    <tr>
+    <td>{{post.item_name}}</td>
+    <td>{{post.Category}}</td>
+    
+    <td>{{post.item_location}}</td>
+    <td>{{post.date}}</td>
+    <td><image src="image?img_id={{post.key.urlsafe()}}"> </td>
+    </tr>
+    {% endfor %}
+  </table>
+                        
+                            
+                        </div>                     
+                    </div>  
+        </div>
+        <div id="signupbox" style="display:none; margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <div class="panel-title">Sign Up</div>
+                            <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="#" onclick="$('#signupbox').hide(); $('#loginbox').show()">Sign In</a></div>
+                        </div>  
+                        <div class="panel-body" >
+                            <form id="signupform" class="form-horizontal" role="form">
+                                
+                                <div id="signupalert" style="display:none" class="alert alert-danger">
+                                    <p>Error:</p>
+                                    <span></span>
+                                </div>
+                                    
+                                
+                                  
+                                <div class="form-group">
+                                    <label for="email" class="col-md-3 control-label">Email</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label for="firstname" class="col-md-3 control-label">First Name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="firstname" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastname" class="col-md-3 control-label">Last Name</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-md-3 control-label">Password</label>
+                                    <div class="col-md-9">
+                                        <input type="password" class="form-control" name="passwd" placeholder="Password">
+                                    </div>
+                                </div>
+                                    
+                                <div class="form-group">
+                                    <label for="icode" class="col-md-3 control-label">Invitation Code</label>
+                                    <div class="col-md-9">
+                                        <input type="text" class="form-control" name="icode" placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <!-- Button -->                                        
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
+                                        <span style="margin-left:8px;">or</span>  
+                                    </div>
+                                </div>
+                                
+                                <div style="border-top: 1px solid #999; padding-top:20px"  class="form-group">
+                                    
+                                    <div class="col-md-offset-3 col-md-9">
+                                        <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>   Sign Up with Facebook</button>
+                                    </div>                                           
+                                        
+                                </div>
+                                
+                                
+                                
+                            </form>
+                         </div>
+                    </div>
+
+               
+               
+                
+         </div> 
+    </div>
+    
+		<!-----//end-main---->
+	
+>>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
 
   </body>
 </html>

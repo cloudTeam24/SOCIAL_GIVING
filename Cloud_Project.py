@@ -62,7 +62,11 @@ class Post(ndb.Model):
     sender_id = ndb.StringProperty(indexed=True)
     item_photo = ndb.BlobProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
+<<<<<<< HEAD
     possible_receiver	 = ndb.StringProperty(repeated=True)
+=======
+    possible_receiver = ndb.StringProperty(repeated=True)
+>>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
 
 class MainPage(session_module.BaseSessionHandler):
     def get(self):
@@ -257,6 +261,7 @@ class History(session_module.BaseSessionHandler):
         current_post.sender_id = Emailid
         current_post.put()
         user_posts = Post.query(Post.sender_id == Emailid).fetch()
+<<<<<<< HEAD
         user_posts1 = []
         user_posts2 = []
         for us in user_posts:
@@ -266,10 +271,14 @@ class History(session_module.BaseSessionHandler):
                 user_posts2.append(us)
         user_takes = Post.query(Post.receiver_id == Emailid).fetch()
         values = {'posts_rec':user_posts1, 'posts':user_posts2, 'takes': user_takes}
+=======
+        values = {'posts':user_posts}
+>>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
         template = JINJA_ENVIRONMENT.get_template('post_history.html')
         self.response.write(template.render(values=values))
     def get(self):
     	Emailid = self.session['user']
+<<<<<<< HEAD
         user_posts = Post.query(Post.sender_id == Emailid).fetch()
         user_posts1 = []
         user_posts2 = []
@@ -301,6 +310,14 @@ class item_des(session_module.BaseSessionHandler):
         values = {'item':item}
         template = JINJA_ENVIRONMENT.get_template('item_desc.html')
         self.response.write(template.render(values=values))
+=======
+    	user_posts = Post.query(Post.sender_id == Emailid).fetch()
+        values = {'posts':user_posts}
+        template = JINJA_ENVIRONMENT.get_template('post_history.html')
+        self.response.write(template.render(values=values))
+
+
+>>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
 
 app = webapp2.WSGIApplication([	
 	('/',MainPage),
@@ -314,5 +331,8 @@ app = webapp2.WSGIApplication([
     ('/history',History),
     ('/image',ImageItem),
     ('/Category',Category),
+<<<<<<< HEAD
     ('/itempage',item_des),
+=======
+>>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
 ], config=session_module.myconfig_dict,debug=True)
