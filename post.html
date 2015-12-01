@@ -51,7 +51,7 @@ function geolocate() {
     </div>
       <ul class="nav navbar-nav navbar-right">
         <li class="active"><a href="#">Profile</a></li>
-        <li><a href="/post?user_email={{values['user_email']}}">Post</a></li>
+        <li><a href="/post">Post</a></li>
         <li><a href="#">Link</a></li>
         <li >
           <a href="/logout" >Sign out</a></li>
@@ -59,7 +59,7 @@ function geolocate() {
     </nav>
 <div class="cont">
   <div class="main">
-		<form action="/category" method="post" id="form">
+		<form action="/history" enctype="multipart/form-data" method="post" id="form">
 
 		   <div class="lable-2">
 		        <input type="text" class="text"  value="Item Name" name="item_name" pattern="^(?!.*Item Name).*$"
@@ -76,7 +76,6 @@ function geolocate() {
 		     <input type="text" class="text" value="Address" id="autocomplete" name="item_address" pattern="^(?!.*Address).*$" 
             oninvalid="setCustomValidity(' Address Required')" oninput="setCustomValidity('')"
             onFocus="geolocate();" onblur="if (this.value == '') {this.value = 'Address';}" >
-            <input type="hidden" name="Emailid" value="{{values['Emailid']}}">
             <div><input type="file" name="image"/></div>
 
 		   </div>

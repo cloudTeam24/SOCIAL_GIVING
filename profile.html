@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="google-signin-client_id" content="411218153361-471lpvqtvgrlfe3dd39c5ej3k8lr8301.apps.googleusercontent.com">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
@@ -17,6 +18,59 @@
     <!-- FONT-AWESOME STYLE SHEET FOR BEAUTIFUL ICONS -->
     <link href="./css/font-awesome.css" rel="stylesheet" />
      <!-- CUSTOM STYLE CSS -->
+     <style type="text/css">
+     * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+table {
+  color: #333;
+  font-family: sans-serif;
+  font-size: .9em;
+  font-weight: 300;
+  text-align: left;
+  line-height: 40px;
+  border-spacing: 0;
+  border: 2px solid #975997;
+  width: 400px;
+  margin: 0px auto;
+}
+
+thead tr:first-child {
+  background: Brown;
+  color: #fff;
+  border: none;
+}
+
+th {font-weight: bold;}
+th:first-child, td:first-child {padding: 0 15px 0 20px;}
+
+thead tr:last-child th {border-bottom: 3px solid #ddd;}
+
+tbody tr:hover {background-color: #ffeeff;}
+tbody tr:last-child td {border: none;}
+tbody td {border-bottom: 1px solid #ddd;}
+
+td:last-child {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.button {
+  color: #696969;
+  padding-right: 5px;
+  cursor: pointer;
+}
+
+.alterar:hover {
+  color: #0a79df;
+}
+
+.excluir:hover {
+  color: #dc2a2a;
+}</style>
    <script>
    var placeSearch, autocomplete;
 
@@ -72,11 +126,58 @@ $('#user_contact').keypress(function(key){
     </div>
       <ul class="nav navbar-nav navbar-right">
         <li class="active"><a href="#">Profile</a></li>
-        <li><a href="/post?user_email={{values['user_email']}}">Post</a></li>
-        <li><a href="#">Link</a></li>
+        <li><a href="/post">Post</a></li>
+ 
+         <li class="dropdown">
+         {% set count = 0 %}
+         {% for i in values['Notifications'] %}
+         {% set count = count + 1 %}
+         {% endfor %}
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Notifications<span class="badge">{{count}}</span></a>
+      <ul id="login-dp" class="dropdown-menu">
+        <li>
+           <div class="row">
+              <div class="col-md-12">
+               <table>
+  <thead>
+    <tr>
+      <th colspan="3">Notifications</th>
+    </tr>
+    <tr>
+      <th>#</th>
+      <th colspan="2">Requests</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {% for post in values['Notifications'] %}
+
+{% set count_j = 0 %}
+	{% for j in post.possible_receiver %}
+  	{{ count_j }}
+ 	 {% set count_j = count_j + 1 %}
+	{% endfor %}
+      <td>{{post.item_name}} <span class="badge">{{count_j}}</span></td>
+      
+      <td>
+        <i class="fa fa-pencil button alterar"></i>
+        <i class="fa fa-trash button excluir"></i>
+      </td>
+    </tr>
+    {% endfor %}
+ 
+    
+  </tbody>
+</table>
+               </div>
+    
+  </div>
+
+  </li>
+  </ul>
+
         <li >
           <a href="/logout" >Sign out</a></li>
-      </ul>
     </nav>
 {% endblock %}
     <!-- NAVBAR CODE END -->
@@ -100,7 +201,7 @@ $('#user_contact').keypress(function(key){
                     </div>
                   </div>
                     <div class="col-md-8" style  ="background-color:rgba(0,0,0,.9); float:center; color:#fff; width:100%;">
-                        <form method = "post" action= "/update"  enctype="multipart/form-data" style = "width:60%; position:relative; left:200px;">
+                        <form method = "post" action= "/update"  xenctype="multipart/form-data" style = "width:60%; position:relative; left:200px;">
                         <h3>Update Details</h3>
                         <br>
                         <label>Interested in: </label>
@@ -114,7 +215,6 @@ $('#user_contact').keypress(function(key){
                         <span style = "color : 'red'"><b>{{key}} </b></span>&nbsp;&nbsp;
                         {% endfor %}
                         <br /><br />
-                        <input type="hidden" class= 'form-control' name='user_email' value='{{values["user_email"]}}'>
                         <label>Registered Description</label>
                         <input type="text" class="form-control" name = 'Description' value = '{{values["Description"]}}' >
                         <br>
@@ -139,6 +239,7 @@ $('#user_contact').keypress(function(key){
                        <input type="submit" text-color="#fff" value="Update Details" >
                         <br /><br/>
                     </form>
+                    
                  <!--   <div class="form-group col-md-8">
                         <h3>Update Details</h3>
                         <br>

@@ -9,6 +9,11 @@ import webapp2
 import jinja2
 import os
 
+
+import webapp2
+from webapp2_extras import sessions
+import session_module
+
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
@@ -52,37 +57,47 @@ for c in list_cat:
 class Post(ndb.Model):
     Category = ndb.StringProperty(indexed=False)
     item_name = ndb.StringProperty(indexed=False)
-    receiver_id = ndb.StringProperty(indexed=False)
+    receiver_id = ndb.StringProperty(indexed=True)
     item_location = ndb.StringProperty(indexed=False)
+    sender_id = ndb.StringProperty(indexed=True)
     item_photo = ndb.BlobProperty()
+    date = ndb.DateTimeProperty(auto_now_add=True)
+    possible_receiver = ndb.StringProperty(repeated=True)
 
-class MainPage(webapp2.RequestHandler):
-	def get(self):
-		values = {}
-		template = JINJA_ENVIRONMENT.get_template('base.html')
-		self.response.write(template.render(values))
+class MainPage(session_module.BaseSessionHandler):
+    def get(self):
 
-class Signup(webapp2.RequestHandler):
+	values = {}
+	template = JINJA_ENVIRONMENT.get_template('base.html')
+	self.response.write(template.render(values))
+
+
+
+
+class Signup(session_module.BaseSessionHandler):
     def get(self):    	
         if self.request.get('invalid') and self.request.get('invalid') == '1' : 
-        	invalid=1
-        	EmailId=self.request.get('Emailid')
+            invalid=1
+            EmailId=self.request.get('Emailid')
         else:
-        	invalid=0
-        	EmailId=''
+            invalid=0
+            EmailId=''
         values = {'invalid':invalid,'EmailId':EmailId}
         # Write the submission form and the footer of the page
         template = JINJA_ENVIRONMENT.get_template('signup.html')
 
         self.response.write(template.render(values))
 
-class signupNext(webapp2.RequestHandler):
+class signupNext(session_module.BaseSessionHandler):
     def post(self):
         # We set the same parent key on the 'Greeting' to ensure each
         # Greeting is in the same entity group. Queries across the
         # single entity group will be consistent. However, the write
         # rate to a single entity group should be limited to
         # ~1/second.
+        user_email = self.request.get('user_email')
+        self.session['user'] = user_email
+
         CheckExisting = User.query(User.Emailid == self.request.get('user_email')).fetch()
         USER_EMAIL = self.request.get('user_email')
         #self.response.write(CheckExisting)
@@ -115,32 +130,42 @@ class signupNext(webapp2.RequestHandler):
         if user1.contact_no == 'None':
         	user1.contact_no = ''
         #list_cat = ['Food','Books','Clothes','Furniture','Household','Electronics']
-        values={'Firstname': user1.Firstname, 'Address': user1.address, 'Contact':user1.contact_no, 'Description':user1.desc, 'image_url':user1.key.urlsafe(), 'user_email':user1.Emailid, 'list' :list_cat, 'user_list':user1.subscribe}
+        Notifications = Post.query(Post.sender_id==user_email and Post.receiver_id == '').order(-Post.date)
+        Count = len(Notifications.fetch())
+        values={'Firstname': user1.Firstname, 'Address': user1.address, 'Contact':user1.contact_no, 'Description':user1.desc, 'image_url':user1.key.urlsafe(),  'list' :list_cat, 'user_list':user1.subscribe,'Notifications':Notifications,'Count':Count}
         template = JINJA_ENVIRONMENT.get_template('profile.html')
         self.response.write(template.render(values=values))
 
     def get(self):
-    	user1 = User.query(User.Emailid == self.request.get('user_email')).fetch()[0]
-     	values={'Firstname': user1.Firstname, 'Address': user1.address, 'Contact':user1.contact_no, 'Description':user1.desc, 'image_url':user1.key.urlsafe(),'user_email':user1.Emailid, 'list' :list_cat, 'user_list':user1.subscribe}
-        template = JINJA_ENVIRONMENT.get_template('profile.html')
-        self.response.write(template.render(values=values))
-
-
-class verify(webapp2.RequestHandler):
-	def get(self):
-		values={}
-		template = JINJA_ENVIRONMENT.get_template('google2480455ad030cc62.html')
-		self.response.write(template.render(values))
-class logout(webapp2.RequestHandler):
-    def get(self):
-        self.redirect(users.create_logout_url('/'))
-class update(webapp2.RequestHandler):
-    def post(self):
         user = users.get_current_user()
-        user1 = User.query(User.Emailid == self.request.get('user_email')).fetch()[0]
+	if not user:
+	    self.redirect('/')
+	user_email = self.session['user']
+    	user1 = User.query(User.Emailid == user_email).fetch()[0]
+    	Notifications = Post.query(Post.sender_id==user_email and Post.receiver_id == '' ).order(-Post.date)
+    	Count = len(Notifications.fetch())
+     	values={'Firstname': user1.Firstname, 'Address': user1.address, 'Contact':user1.contact_no, 'Description':user1.desc, 'image_url':user1.key.urlsafe(), 'list' :list_cat, 'user_list':user1.subscribe,'Notifications':Notifications,'Count':Count}
+        template = JINJA_ENVIRONMENT.get_template('profile.html')
+        self.response.write(template.render(values=values))
+
+
+class verify(session_module.BaseSessionHandler):
+    def get(self):
+        values={}
+	template = JINJA_ENVIRONMENT.get_template('google2480455ad030cc62.html')
+	self.response.write(template.render(values))
+
+class logout(session_module.BaseSessionHandler):
+    def get(self):
+    	self.session['user'] = ""
+        self.redirect(users.create_logout_url('/'))
+class update(session_module.BaseSessionHandler):
+    def post(self):
+        user_email = self.session['user']
+        user1 = User.query(User.Emailid == user_email).fetch()[0]
         first = self.request.get('Firstname')
-        email = self.request.get('user_email')
-        self.response.write('<p>'+email+'</p>')
+        email = self.session['user']
+	self.response.write('<p>'+email+'</p>')
         add = self.request.get('Address')
         cont = self.request.get('Contact')
         des = self.request.get('Description')
@@ -161,7 +186,7 @@ class update(webapp2.RequestHandler):
         if cont and user1.contact_no != cont:
             user1.contact_no = cont
             flag = 1
-        if user1.desc != des:
+        if user1.desc != des:	
             user1.desc = des
             flag = 1
         if subs:
@@ -184,21 +209,21 @@ class update(webapp2.RequestHandler):
             flag=1
         if flag == 1 : 
         	user1.put()
-        self.redirect('/signupNext?user_email='+ email)
+        self.redirect('/signupNext')
 
-class Image(webapp2.RequestHandler):
-	def get(self):
-		user_key = ndb.Key(urlsafe=self.request.get('img_id'))
-		user = user_key.get()
-		if  user.profile_photo: 
-		    self.response.headers['Content-Type'] = 'image/png'
-		    self.response.out.write(user.profile_photo)
-		else:
-			self.response.out.write('No Image')
-
-class ImageItem(webapp2.RequestHandler):
+class Image(session_module.BaseSessionHandler):
     def get(self):
-        post_key = ndb.key(urlsafe=self.request.get('image'))
+        user_key = ndb.Key(urlsafe=self.request.get('img_id'))
+	user = user_key.get()
+	if  user.profile_photo: 
+            self.response.headers['Content-Type'] = 'image/png'
+            self.response.out.write(user.profile_photo)
+	else:
+	    self.response.out.write('No Image')
+
+class ImageItem(session_module.BaseSessionHandler):
+    def get(self):
+        post_key = ndb.Key(urlsafe=self.request.get('img_id'))
         post = post_key.get()
         if post.item_photo:
             self.response.headers['Content-Type'] = 'image/png'
@@ -206,16 +231,22 @@ class ImageItem(webapp2.RequestHandler):
         else:
             self.response.out.write('No Image')
 
-class postItem(webapp2.RequestHandler):
+class postItem(session_module.BaseSessionHandler):
     def get(self):
-        user1 = User.query(User.Emailid == self.request.get('user_email')).fetch()[0]
-        values = { 'list' :list_cat[:-1],'Emailid':self.request.get('user_email')}
+    	user_email = self.session['user']
+        user1 = User.query(User.Emailid == user_email).fetch()[0]
+        values = { 'list' :list_cat[:-1],'Emailid':user_email}
         template = JINJA_ENVIRONMENT.get_template('post.html')
         self.response.write(template.render(values=values))
 
-class Category(webapp2.RequestHandler):
+class Category(session_module.BaseSessionHandler):
+	def get(self):
+		self.response.write('List of items')
+
+class History(session_module.BaseSessionHandler):
     def post(self):
-        user1 = User.query(User.Emailid == self.request.get('Emailid')).fetch()[0] 
+    	Emailid = self.session['user']
+        user1 = User.query(User.Emailid == Emailid).fetch()[0] 
         current_post = Post(parent=user1.key)
         current_post.Category = self.request.get('Category')
         current_post.item_name = self.request.get('item_name')
@@ -223,8 +254,20 @@ class Category(webapp2.RequestHandler):
         current_post.item_location = self.request.get('item_address')
         item_photo = self.request.get('image')
         current_post.item_photo = images.resize(item_photo,200,200)
+        current_post.sender_id = Emailid
         current_post.put()
-        self.response.headers['Content-Type'] = 'image/png'
+        user_posts = Post.query(Post.sender_id == Emailid).fetch()
+        values = {'posts':user_posts}
+        template = JINJA_ENVIRONMENT.get_template('post_history.html')
+        self.response.write(template.render(values=values))
+    def get(self):
+    	Emailid = self.session['user']
+    	user_posts = Post.query(Post.sender_id == Emailid).fetch()
+        values = {'posts':user_posts}
+        template = JINJA_ENVIRONMENT.get_template('post_history.html')
+        self.response.write(template.render(values=values))
+
+
 
 app = webapp2.WSGIApplication([	
 	('/',MainPage),
@@ -235,6 +278,7 @@ app = webapp2.WSGIApplication([
     ('/update',update),
     ('/img',Image),
     ('/post',postItem),
-    ('/category',Category),
+    ('/history',History),
     ('/image',ImageItem),
-], debug=True)
+    ('/Category',Category),
+], config=session_module.myconfig_dict,debug=True)

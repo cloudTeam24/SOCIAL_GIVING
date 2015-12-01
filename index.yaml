@@ -11,3 +11,10 @@ indexes:
 
 - kind: User
   ancestor: yes
+
+- kind: Post
+  ancestor: yes
+  properties:
+  - name: receiver_id
+  - name: date
+    direction: desc
