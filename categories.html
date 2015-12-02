@@ -124,17 +124,16 @@
 </head>
 
 <body style= "background:none;">
-<nav class="navbar navbar-inverse navbar-static-top">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">WebSiteName</a>
-    </div>
-      <ul class="nav navbar-nav navbar-right">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#"><span>SOCIAL</span>GIVING</a>
+			     <ul class="nav navbar-nav navbar-right">
         <li><a href="/signupNext">Profile</a></li>
         <li><a href="/post">Post</a></li>
-        <li class="active"><a href="#">Categories</a></li>
-        <li><a href="/history">History</a></li>
-                 <li class="dropdown">
+        <li class="active"><a href="#">Categories</a></li> 
+        <li><a href ="/history">History</a></li>
+         <li class="dropdown">
          {% set count = 0 %}
          {% for i in values['Notifications'] %}
          {% set count = count + 1 %}
@@ -181,27 +180,24 @@
 
   </li>
   </ul>
-        <li><a href="/logout">Sign out</a></li>
-      </ul></div>
-    </nav>
-		
-	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar parent">
-		<form role="search">
-			<div class="form-group">
-				<input type="text" class="form-control" placeholder="Search">
+
+        <li >
+          <a href="/logout" >Sign out</a></li>
 			</div>
-		</form>
+							
+		</div><!-- /.container-fluid -->
+	</nav>
+	<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar parent">
 		<ul class="nav menu">
-			<li class="active item_cat" style="background:#fff"><a href="#" style="pointer-events: none; cursor: default;><svg class="glyph stroked dashboard-dial" onclick="display_cat()"><use xlink:href="#stroked-dashboard-dial"></use></svg> Categories</a></li> 
-			<li class="item_cat" onclick="abc()"><a href="#" class="item_cat" onclick="display_cat('All')"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg><font color="0000FF"> All</font></a></li>
-			<li class="item_cat"><a href="#" onclick="display_cat('Food')"><svg class="glyph stroked line-graph"><use xlink:href="#stroked-line-graph"></use></svg> Food</a></li>
-			<li class="item_cat"><a href="#" onclick="display_cat('Books')"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Books</a></li>
-			<li class="item_cat"><a href="#" onclick="display_cat('Clothing')"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg> Clothing</a></li>
-			<li class="item_cat"><a href="#" onclick="display_cat('Newspapers')"><svg class="glyph stroked app-window"><use xlink:href="#stroked-app-window"></use></svg> Newspapers</a></li>
-			<li class="item_cat"><a href="#" onclick="display_cat('Furnitures')"><svg class="glyph stroked star"><use xlink:href="#stroked-star"></use></svg> Furnitures</a></li>
-			<li class="item_cat"><a href="#" onclick="display_cat('Household')"><svg class="glyph stroked star"><use xlink:href="#stroked-star"></use></svg> Household</a></li>
-			<li class="item_cat"><a href="#" onclick="display_cat('Electronics')"><svg class="glyph stroked star"><use xlink:href="#stroked-star"></use></svg> Electronics</a></li>
-			<li class="item_cat"><a href="#" onclick="display_cat('Others')"0><svg class="glyph stroked star"><use xlink:href="#stroked-star"></use></svg> Others</a></li>
+			<li class="active item_cat" style="background:#fff"><a href="#" style="pointer-events: none; cursor: default;"><svg class="glyph stroked dashboard-dial" onclick="display_cat()"><use xlink:href="#stroked-dashboard-dial"></use></svg> Categories</a></li> 
+			<li class="item_cat" onclick="abc()"><a href="/Category" class="item_cat"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg><font color="0000FF"> All</font></a></li>
+			<li class="item_cat"><a href="/Category?cat=Food" ><svg class="glyph stroked line-graph"><use xlink:href="#stroked-line-graph"></use></svg> Food</a></li>
+			<li class="item_cat"><a href="/Category?cat=Books"><svg class="glyph stroked table"><use xlink:href="#stroked-table"></use></svg> Books</a></li>
+			<li class="item_cat"><a href="/Category?cat=Clothes"><svg class="glyph stroked pencil"><use xlink:href="#stroked-pencil"></use></svg> Clothing</a></li>
+			<li class="item_cat"><a href="/Category?cat=Furniture"><svg class="glyph stroked star"><use xlink:href="#stroked-star"></use></svg> Furnitures</a></li>
+			<li class="item_cat"><a href="/Category?cat=Household"><svg class="glyph stroked star"><use xlink:href="#stroked-star"></use></svg> Household</a></li>
+			<li class="item_cat"><a href="/Category?cat=Electronics"><svg class="glyph stroked star"><use xlink:href="#stroked-star"></use></svg> Electronics</a></li>
+			<li class="item_cat"><a href="/Category"><svg class="glyph stroked star"><use xlink:href="#stroked-star"></use></svg> Others</a></li>
 		</ul>
 
 	</div><!--/.sidebar-->
@@ -215,37 +211,39 @@
 		</div><!--/.row-->
 		
 		<div class="row">
-			<div class="col-lg-8">
-				<div class="panel panel-default">
-					<div class="panel-heading">Map - Showing all events of selected category</div>
-					<div class="panel-body">
-						<div class="canvas-wrapper child-right" id="mapPlaceholder" style="width:100%;height:381px;>
-							<canvas class="main-chart" id="line-chart" height="200" width="600"></canvas>
-						</div>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-lg-4 right-pane">
 				<div class="panel-heading">Events</div>
 				<div class="row list-group">
                		       		<!--<a href="#" class="list-group-item active">
    				       	  <h4 class="list-group-item-heading">List group item heading</h4>
   				       	  <p class="list-group-item-text">some content from db</p>
  				        </a>-->
- 				        {% for val in values['posts'] %}					
-						<a href="/itempage?item_key={{val.key.urlsafe()}}&user_email={{values['user_email']}}" class="list-group-item">
-	   				       	  <h4 class="list-group-item-heading">{{val.Category}}</h4>
-	  				       	  <p class="list-group-item-text">{{val.item_name}}</p>
-	 				        </a>
+ 				 <div class= "row">
+ 				 {% set len = 0 %}
+ 				  
+ 				    {% for val in values['posts'] %}					
+						
+						{% if len ==3  %}
+							<div class="row">
+							{% set len = 0 %}
+						{% endif %}
+	   				    <div class="col-md-4 portfolio-item">
+                    <a href="/itempage?item_key={{val.key.urlsafe()}}" class="list-group-item"><img class="img-responsive" src="image?img_id={{val.key.urlsafe()}}" alt=""></a>
+                </a>
+                <h3>
+                    {{val.item_name}}
+                </h3>
+                <p>Item Description {{val.item_desc}}</p>
+            </div>
+            	{% if len==2 %}
+            		</div>
+            	{% endif %}
+            			{% set len= len+1  %}
 	 				    {% endfor %}
-					
+	 				   </div>
+					</div>
 				</div>
 			</div>
 		</div><!--/.row-->
-		
-	
-
 	<script src="js/jquery-1.11.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/chart.min.js"></script>
@@ -274,3 +272,68 @@
 </body>
 
 </html>
+
+
+<!--
+
+
+<nav class="navbar navbar-inverse navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/signupNext">Profile</a></li>
+        <li><a href="/post">Post</a></li>
+        <li class="active"><a href="#">Categories</a></li>
+        <li><a href="/history">History</a></li>
+        <li class="dropdown">
+         {% set count = 0 %}
+         {% for i in values['Notifications'] %}
+         {% set count = count + 1 %}
+         {% endfor %}
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Notifications<span class="badge">{{count}}</span></a>
+      	<ul id="login-dp" class="dropdown-menu">
+        <li>
+           <div class="row">
+              <div class="col-md-12">
+               <table>
+  <thead>
+    <tr>
+      <th colspan="3">Notifications</th>
+    </tr>
+    <tr>
+      <th>#</th>
+      <th colspan="2">Requests</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {% for post in values['Notifications'] %}
+
+{% set count_j = 0 %}
+	{% for j in post.possible_receiver %}
+  	{{ count_j }}
+ 	 {% set count_j = count_j + 1 %}
+	{% endfor %}
+      <td>{{post.item_name}} <span class="badge">{{count_j}}</span></td>
+      
+      <td>
+        <i class="fa fa-pencil button alterar"><a href="/itempage?item_key={{post.key.urlsafe()}}" /></i>
+        <i class="fa fa-trash button excluir"></i>
+      </td>
+    </tr>
+    {% endfor %}
+ 
+    
+  </tbody>
+</table>
+               </div>
+    
+  </div>
+
+  </li>
+  </ul>
+        <li><a href="/logout">Sign out</a></li>
+      </ul></div>
+    </nav> -->

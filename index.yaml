@@ -15,6 +15,6 @@ indexes:
 - kind: Post
   ancestor: yes
   properties:
-  - name: receiver_id
+  - name: sender_id
   - name: date
     direction: desc

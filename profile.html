@@ -113,6 +113,9 @@ $('#user_contact').keypress(function(key){
     return false;
 });
 });
+window.onload = function() {
+ document.getElementById("work").innerHTML=Counter;
+}
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTDXZw4TvfKogqUxSveg6w8098V-jUKBg&signed_in=true&libraries=places&callback=initAutocomplete"
         async defer></script>
@@ -127,18 +130,20 @@ $('#user_contact').keypress(function(key){
       <ul class="nav navbar-nav navbar-right">
         <li class="active"><a href="#">Profile</a></li>
         <li><a href="/post">Post</a></li>
-<<<<<<< HEAD
         <li><a href="/Category">Categories</a></li> 
         <li><a href ="/history">History</a></li>
-=======
- 
->>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
          <li class="dropdown">
-         {% set count = 0 %}
-         {% for i in values['Notifications'] %}
-         {% set count = count + 1 %}
-         {% endfor %}
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Notifications<span class="badge">{{count}}</span></a>
+{% set counter = 0 %}
+{% for i in values['Notifications'] %}
+    {% if i.possible_receiver | length > 0  %}
+  	  {% if i.sender_id ==  values['Emailid'] %}
+ 		 {% set counter = counter + 1 %}  	  	 
+ 	 {% endif %}
+ 	{% endif %}
+
+<script type="text/javascript">var Counter = {{counter}} ;</script>
+{% endfor %}
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Notifications<span class="badge" id='work'>{{counter}}</span></a>
       <ul id="login-dp" class="dropdown-menu">
         <li>
            <div class="row">
@@ -157,21 +162,20 @@ $('#user_contact').keypress(function(key){
     <tr>
       {% for post in values['Notifications'] %}
 
-{% set count_j = 0 %}
-	{% for j in post.possible_receiver %}
-  	{{ count_j }}
- 	 {% set count_j = count_j + 1 %}
-	{% endfor %}
-      <td>{{post.item_name}} <span class="badge">{{count_j}}</span></td>
-      
-      <td>
-<<<<<<< HEAD
-        <i class="fa fa-pencil button alterar"><a href="/itempage?item_key={{post.key.urlsafe()}}" /></i>
-=======
-        <i class="fa fa-pencil button alterar"></i>
->>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
-        <i class="fa fa-trash button excluir"></i>
+      {% if post.possible_receiver | length > 0  %}
+       {% if post.sender_id == values['Emailid'] %}
+      <td>{{post.item_name}}
+       {{post.possible_receiver | length }} 
       </td>
+      
+
+      <td>
+         <a href="/itemdelete?item_key={{post.key.urlsafe()}}"><i class="fa fa-trash button excluir"></i></a>
+       <a href="/postinfo?item_key={{post.key.urlsafe()}}" ><i class="fa fa-pencil button alterar"></i></a>
+
+      </td>
+      {% endif %}
+     {% endif %} 
     </tr>
     {% endfor %}
  
@@ -200,7 +204,7 @@ $('#user_contact').keypress(function(key){
                 </div>-->
                 <div class = "col-md-4" style  ="background-color:rgba(0,0,0,.9); color:#fff; padding-bottom:20px;">
                 <div><h3>Profile Photo : </h3>
-                  <img src='/img?img_id={{values["image_url"]}}'></div></div>
+                 <img src='/img?img_id={{values["image_url"]}}'></div></div>
                 <div class="col-md-8" style  ="color:#fff; width:80%;">
                     <div class="alert alert-info" style= "background-color: rgba(0,0,0,.9); height:210px;" >
                         <h3>User Bio : </h3>
@@ -210,7 +214,7 @@ $('#user_contact').keypress(function(key){
                     </div>
                   </div>
                     <div class="col-md-8" style  ="background-color:rgba(0,0,0,.9); float:center; color:#fff; width:100%;">
-                        <form method = "post" action= "/update"  xenctype="multipart/form-data" style = "width:60%; position:relative; left:200px;">
+                        <form method = "post" action= "/update"  enctype="multipart/form-data" style = "width:60%; position:relative; left:200px;">
                         <h3>Update Details</h3>
                         <br>
                         <label>Interested in: </label>

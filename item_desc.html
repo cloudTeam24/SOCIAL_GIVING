@@ -21,10 +21,10 @@
       <a class="navbar-brand" href="#">WebSiteName</a>
     </div>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Profile</a></li>
-        <li><a href="/post?user_email={{values['user_email']}}">Post</a></li>
-        <li class="active"><a href="/Category?user_email={{values['user_email']}}">Categories</a></li>
-        <li><a href="/history?Emailid={{values['user_email']}}">History</a></li>
+        <li><a href="/signupNext">Profile</a></li>
+        <li><a href="/post">Post</a></li>
+        <li class="active"><a href="/Category">Categories</a></li>
+        <li><a href="/history">History</a></li>
         <li><a href="/logout">Sign out</a></li>
       </ul></div>
     </nav>
@@ -39,13 +39,16 @@
       <thead>
         <tr>
           <th><h3>Description</h3></th>
-          <th></th></tr>
+          <th></th>
+          <th><th></tr>
       </thead> 
        <tr>
         <td><image src="image?img_id={{values['item'].key.urlsafe()}}"></td>
-        <td><br><h4>Item Description</h4><br><h4>Posted By:</h4>{{values['item'].sender_id}}
+        <td><br><h4>Item Description:</h4>{{values['item'].item_desc}}<br><h4>Posted By:</h4>{{values['item'].sender_id}}
           <br><h4>Posted On:</h4> {{values['item'].date}}
+          <br><a class="btn" href = "/request?item_key={{values['item'].key.urlsafe()}}"onclick = "if (! confirm('Are you sure you want to make a request? Click OK to continue. ')) { return false; }">Make Request</an>
           </td>
+          <td></td>
       </tr>
     </table>
 </body>

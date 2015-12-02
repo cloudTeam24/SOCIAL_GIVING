@@ -1,9 +1,6 @@
 body{
-<<<<<<< HEAD
+
     background:url('http://www.wallpaperup.com/uploads/wallpapers/2012/10/21/20181/cad2441dd3252cf53f12154412286ba0.jpg');
-=======
-   background:url('http://www.wallpaperup.com/uploads/wallpapers/2012/10/21/20181/cad2441dd3252cf53f12154412286ba0.jpg');
->>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
 }
 
 #login-dp{
@@ -56,7 +53,6 @@ body{
         border-top:0 none;
     }
 }
-<<<<<<< HEAD
 .nav-tabs { border-bottom: 2px solid #DDD; }
     .nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border-width: 0; }
     .nav-tabs > li > a { border: none; color: #666; }
@@ -67,5 +63,3 @@ body{
 .tab-pane { padding: 5px 0; }
 
 .card {background: #FFF none repeat scroll 0% 0%; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3); margin-bottom: 30px; }
-=======
->>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40

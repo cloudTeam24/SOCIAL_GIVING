@@ -50,7 +50,6 @@ function geolocate() {
       <a class="navbar-brand" href="#">WebSiteName</a>
     </div>
       <ul class="nav navbar-nav navbar-right">
-<<<<<<< HEAD
         <li><a href="/signupNext">Profile</a></li>
         <li class="active"><a href="#">Post</a></li>
         <li><a href="/Category">Categories</a></li>
@@ -103,12 +102,6 @@ function geolocate() {
   </li>
   </ul>
         <li>
-=======
-        <li class="active"><a href="#">Profile</a></li>
-        <li><a href="/post">Post</a></li>
-        <li><a href="#">Link</a></li>
-        <li >
->>>>>>> e9a086eed48731fcccb527cb0b2201cf1f31dc40
           <a href="/logout" >Sign out</a></li>
       </ul>
     </nav>
@@ -126,7 +119,8 @@ function geolocate() {
             	<option value="{{cat}}">{{cat}}</option>
             	{% endfor %}
             </select>
-		    
+		    <input type= "text" class="text" value ="Item Description" name = "item_desc" pattern="^(?!.*Item Name).*$"
+            oninvalid="setCustomValidity('Please enter Item Description')" oninput="setCustomValidity('')" onfocus="if(this.value.substring(0,16)=='Item Description'){this.value='';}" onblur="if (this.value == '') {this.value = 'Item Description';}">
 		
 		     <input type="text" class="text" value="Address" id="autocomplete" name="item_address" pattern="^(?!.*Address).*$" 
             oninvalid="setCustomValidity(' Address Required')" oninput="setCustomValidity('')"
