@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="google-signin-client_id" content="411218153361-471lpvqtvgrlfe3dd39c5ej3k8lr8301.apps.googleusercontent.com">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <link rel = "stylesheet" href = "./css/navcss.css" type="text/css"/>
+    <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <![endif]-->
+    <!-- BOOTSTRAP STYLE SHEET -->
+    <link href="./css/bootstrap.css" rel="stylesheet" />
+    <!-- FONT-AWESOME STYLE SHEET FOR BEAUTIFUL ICONS -->
+    <link href="./css/font-awesome.css" rel="stylesheet" />
+     <!-- CUSTOM STYLE CSS -->
+     <style type="text/css">
+     * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+table {
+  color: #333;
+  font-family: sans-serif;
+  font-size: .9em;
+  font-weight: 300;
+  text-align: left;
+  line-height: 40px;
+  border-spacing: 0;
+  border: 2px solid #975997;
+  width: 400px;
+  margin: 0px auto;
+}
+
+thead tr:first-child {
+  background: Brown;
+  color: #fff;
+  border: none;
+}
+
+th {font-weight: bold;}
+th:first-child, td:first-child {padding: 0 15px 0 20px;}
+
+thead tr:last-child th {border-bottom: 3px solid #ddd;}
+
+tbody tr:hover {background-color: #ffeeff;}
+tbody tr:last-child td {border: none;}
+tbody td {border-bottom: 1px solid #ddd;}
+
+td:last-child {
+  text-align: right;
+  padding-right: 10px;
+}
+
+.button {
+  color: #696969;
+  padding-right: 5px;
+  cursor: pointer;
+}
+
+.alterar:hover {
+  color: #0a79df;
+}
+
+.excluir:hover {
+  color: #dc2a2a;
+}</style>
+   <script>
+   var placeSearch, autocomplete;
+
+function initAutocomplete() {
+  // Create the autocomplete object, restricting the search to geographical
+  // location types.
+  autocomplete = new google.maps.places.Autocomplete(
+      /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+      {types: ['geocode']}); 
+}
+function geolocate() {
+  document.getElementById('autocomplete').value='';
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
+function setCheck(list){
+  document.getElementById('Food').checked = true;
+  for (c in list)
+  {
+    document.getElementById(c).checked = true;
+  }
+  
+}
+$(document).ready(function(){
+$('#user_contact').keypress(function(key){
+  if((key.charCode>=48 && key.charCode<=57 )|| (key.charCode==43))
+    ;
+  else
+    return false;
+});
+});
+window.onload = function() {
+ document.getElementById("work").innerHTML=Counter;
+}
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTDXZw4TvfKogqUxSveg6w8098V-jUKBg&signed_in=true&libraries=places&callback=initAutocomplete"
+        async defer></script>
+</head>
+<body>
+{% block nav %}
+<nav class="navbar navbar-inverse navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="#">Profile</a></li>
+        <li><a href="/post">Post</a></li>
+        <li><a href="/Category">Categories</a></li> 
+        <li><a href ="/history">History</a></li>
+         <li class="dropdown">
+{% set counter = 0 %}
+{% for i in values['Notifications'] %}
+    {% if i.possible_receiver | length > 0  %}
+  	  {% if i.sender_id ==  values['Emailid'] %}
+ 		 {% set counter = counter + 1 %}  	  	 
+ 	 {% endif %}
+ 	{% endif %}
+
+<script type="text/javascript">var Counter = {{counter}} ;</script>
+{% endfor %}
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Notifications<span class="badge" id='work'>{{counter}}</span></a>
+      <ul id="login-dp" class="dropdown-menu">
+        <li>
+           <div class="row">
+              <div class="col-md-12">
+               <table>
+  <thead>
+    <tr>
+      <th colspan="3">Notifications</th>
+    </tr>
+    <tr>
+      <th>#</th>
+      <th colspan="2">Requests</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {% for post in values['Notifications'] %}
+
+      {% if post.possible_receiver | length > 0  %}
+       {% if post.sender_id == values['Emailid'] %}
+      <td>{{post.item_name}}
+       {{post.possible_receiver | length }} 
+      </td>
+      
+
+      <td>
+         <a href="/itemdelete?item_key={{post.key.urlsafe()}}"><i class="fa fa-trash button excluir"></i></a>
+       <a href="/postinfo?item_key={{post.key.urlsafe()}}" ><i class="fa fa-pencil button alterar"></i></a>
+
+      </td>
+      {% endif %}
+     {% endif %} 
+    </tr>
+    {% endfor %}
+ 
+    
+  </tbody>
+</table>
+               </div>
+    
+  </div>
+
+  </li>
+  </ul>
+
+        <li >
+          <a href="/logout" >Sign out</a></li>
+    </nav>
+{% endblock %}
+    <!-- NAVBAR CODE END -->
+    <div class="container">
+        <section style="padding-bottom: 30px; padding-top: 15px;">
+            <div class="row" >
+             <!--   <div class="col-md-4">
+                    <br />
+                    <br />
+                    
+                </div>-->
+                <div class = "col-md-4" style  ="background-color:rgba(0,0,0,.9); color:#fff; padding-bottom:20px;">
+                <div><h3>Profile Photo : </h3>
+                 <img src='/img?img_id={{values["image_url"]}}'></div></div>
+                <div class="col-md-8" style  ="color:#fff; width:80%;">
+                    <div class="alert alert-info" style= "background-color: rgba(0,0,0,.9); height:210px;" >
+                        <h3>User Bio : </h3>
+                        <p>
+                        {{values['Description']}} 
+                        </p>
+                    </div>
+                  </div>
+                    <div class="col-md-8" style  ="background-color:rgba(0,0,0,.9); float:center; color:#fff; width:100%;">
+                        <form method = "post" action= "/update"  enctype="multipart/form-data" style = "width:60%; position:relative; left:200px;">
+                        <h3>Update Details</h3>
+                        <br>
+                        <label>Interested in: </label>
+                        <br />
+                        {% for key in values['list'] %}
+                        {{key}} : <input type="checkbox" name = 'subscribe' value='{{key}}' > &nbsp;&nbsp;
+                        {% endfor %}
+                        <br /><br />
+                        <label>Subscribed to: </label>
+                        {% for key in values['user_list'] %}
+                        <span style = "color : 'red'"><b>{{key}} </b></span>&nbsp;&nbsp;
+                        {% endfor %}
+                        <br /><br />
+                        <label>Registered Description</label>
+                        <input type="text" class="form-control" name = 'Description' value = '{{values["Description"]}}' >
+                        <br>
+                        <label> Registered Name</label>
+                        <input type="text" class="form-control" name='Firstname' value='{{values["Firstname"]}}'>
+                        <br>
+                        <label>Registered Contact</label>
+                        <input type="text" class= "form-control" name='Contact' value='{{values["Contact"]}}' id="user_contact" pattern="\+{1}\d{10,13}"
+            oninvalid="setCustomValidity('Please enter Valid Contact Number with country code')" oninput="setCustomValidity('')">
+                        <br>
+                        <label> Registered Address </label>
+                        <input type="text" class="form-control" name='Address' value='{{values["Address"]}}' id='autocomplete' onFocus="geolocate();">
+                        <br>
+                        <label> Current Profile Photo</label>
+                        <div><input type="file" name="img"/></div>
+
+                   <!-- <label>Registered Lastname</label>
+                    <input type="text" class="form-control" name = "user_lastname"value = '{{values["user_firstame"]}}' >
+                    <label>Registered Email</label>
+                    <input type="text" class="form-control" name = "user_email" value = '{{values["user_firstame"]}}'>-->
+                        <br>
+                       <input type="submit" text-color="#fff" value="Update Details" >
+                        <br /><br/>
+                    </form>
+                    
+                 <!--   <div class="form-group col-md-8">
+                        <h3>Update Details</h3>
+                        <br>
+                        <form method = "post" action= "/update"  enctype="multipart/form-data">
+                        {% for key in values['list'] %}
+                        {{key}} : <input type="checkbox" name = '{{key}}' >
+                        {% endfor %}
+                        <input type = "text value " value ="{{values['user_list']}}">
+                        <br />
+                        <input type="hidden" class= 'form-control' name='user_email' value='{{values["user_email"]}}'>
+                        <label>Registered Description</label>
+                        <input type="text" class="form-control" name = 'Description' value = '{{values["Description"]}}' >
+                        <br>
+                        <label> Registered Name</label>
+                        <input type="text" class="form-control" name='Firstname' value='{{values["Firstname"]}}'>
+                        <br>
+                        <label>Registered Contact</label>
+                        <input type="text" class= "form-control" name='Contact' value='{{values["Contact"]}}' id="user_contact" pattern="\+{1}\d{10,13}"
+            oninvalid="setCustomValidity('Please enter Valid Contact Number with country code')" oninput="setCustomValidity('')">
+                        <br>
+                        <label> Registered Address </label>
+                        <input type="text" class="form-control" name='Address' value='{{values["Address"]}}' id='autocomplete' onFocus="geolocate();">
+                        <br>
+                        <label> Current Profile Photo</label>
+                        <div><input type="file" name="img"/></div>
+
+                   <!-- <label>Registered Lastname</label>
+                    <input type="text" class="form-control" name = "user_lastname"value = '{{values["user_firstame"]}}' >
+                    <label>Registered Email</label>
+                    <input type="text" class="form-control" name = "user_email" value = '{{values["user_firstame"]}}'>-->
+                       <!-- <br>
+                       <input type="submit"  value="Update Details" >
+                        <br /><br/>
+                    </form>-->
+                   <!--     <label>Enter Old Password</label>
+                        <input type="password" class="form-control">
+                        <label>Enter New Password</label>
+                        <input type="password" class="form-control">
+                        <label>Confirm New Password</label>
+                        <input type="password" class="form-control" />
+                        <br>
+                        <a href="#" class="btn btn-warning">Change Password</a>-->
+                    <!--</div>-->
+                </div>
+            </div>
+            <!-- ROW END -->
+
+
+        </section>
+        <!-- SECTION END -->
+    </div>
+    <!-- CONATINER END -->
+
+    <!-- REQUIRED SCRIPTS FILES -->
+    <!-- CORE JQUERY FILE -->
+    <script src="assets/js/jquery-1.11.1.js"></script>
+    <!-- REQUIRED BOOTSTRAP SCRIPTS -->
+    <script src="assets/js/bootstrap.js"></script>
+
+</body>
+
+</html>

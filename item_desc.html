@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Case</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-signin-client_id" content="411218153361-471lpvqtvgrlfe3dd39c5ej3k8lr8301.apps.googleusercontent.com">
+  <link href="css/style.css" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel = "stylesheet" href = "./css/navcss.css" type="text/css"/>
+  <link href='http://fonts.googleapis.com/css?family=Oxygen:400,300,700' rel='stylesheet' type='text/css'> 
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+</head>
+<body style ="background:none;">
+  <nav class="navbar navbar-inverse navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/signupNext">Profile</a></li>
+        <li><a href="/post">Post</a></li>
+        <li class="active"><a href="/Category">Categories</a></li>
+        <li><a href="/history">History</a></li>
+        <li><a href="/logout">Sign out</a></li>
+      </ul></div>
+    </nav>
+    <table  border="1" class="table table-hover" style="position:relative; left:10px;">
+      <thead>
+        <tr>
+          <th><h3>{{values['item'].item_name}}</h3></th></tr>
+      </thead>
+      <tr>
+        <td><br>At {{values['item'].item_location}} </td></tr></table>
+    <table  border="1" class="table table-hover" style="position:relative; left:10px;"> 
+      <thead>
+        <tr>
+          <th><h3>Description</h3></th>
+          <th></th>
+          <th><th></tr>
+      </thead> 
+       <tr>
+        <td><image src="image?img_id={{values['item'].key.urlsafe()}}"></td>
+        <td><br><h4>Item Description:</h4>{{values['item'].item_desc}}<br><h4>Posted By:</h4>{{values['item'].sender_id}}
+          <br><h4>Posted On:</h4> {{values['item'].date}}
+          <br><a class="btn" href = "/request?item_key={{values['item'].key.urlsafe()}}"onclick = "if (! confirm('Are you sure you want to make a request? Click OK to continue. ')) { return false; }">Make Request</an>
+          </td>
+          <td></td>
+      </tr>
+    </table>
+</body>
+</html>

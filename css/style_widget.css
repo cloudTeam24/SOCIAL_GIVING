@@ -1,0 +1,72 @@
+﻿
+/* GENERAL STYLES */
+body {
+    background-color: #eee;
+    font-family: Verdana;
+}
+/* WIDGET BOX STYLES */
+.widget-wrapper {
+    background-color: #fff;
+}
+
+    .widget-wrapper .header-top, .widget-wrapper .header-top:hover {
+        background-color: #0094ff;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .widget-wrapper a {
+        color: #000;
+    }
+
+        .widget-wrapper a:hover {
+            text-decoration: none;
+            color: #000;
+        }
+    .widget-wrapper ul {
+        list-style: none;
+        padding-left: 0px;
+    }
+
+        .widget-wrapper ul li {
+            padding: 15px;
+            border: 1px solid #eee;
+            cursor: pointer;
+        }
+
+            .widget-wrapper ul li:hover {
+                background-color: #f3f3f3;
+            }
+.widget-wrapper span {
+        margin-right: 10px;
+    }
+
+    .widget-wrapper .badge {
+        position: absolute;
+        right: 30px;
+        border-radius: 0px;
+        -webkit-border-radius:0px;
+        -moz-border-radius:0px;
+    }
+
+    
+
+    .widget-wrapper .clr-bk-primary {
+        background-color: #0931f2;
+    }
+
+    .widget-wrapper .clr-bk-info {
+        background-color: #42a5a8;
+    }
+
+    .widget-wrapper .clr-bk-success {
+        background-color: #5dd56a;
+    }
+
+    .widget-wrapper .clr-bk-warning {
+        background-color: #dee031;
+    }
+
+    .widget-wrapper .clr-bk-danger {
+        background-color: #e45050;
+    }

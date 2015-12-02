@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{%block css %}
+<link href="css/style.css" rel='stylesheet' type='text/css' /> 
+{% endblock %}
+{%block script %}
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<script>
+var placeSearch, autocomplete;
+
+function initAutocomplete() {
+  // Create the autocomplete object, restricting the search to geographical
+  // location types.
+  autocomplete = new google.maps.places.Autocomplete(
+      /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
+      {types: ['geocode']}); 
+}
+function geolocate() {
+  document.getElementById('autocomplete').value='';
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var geolocation = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      var circle = new google.maps.Circle({
+        center: geolocation,
+        radius: position.coords.accuracy
+      });
+      autocomplete.setBounds(circle.getBounds());
+    });
+  }
+}
+function myFunction(){
+ // if(document.getElementById('user_firstname').value=='First Name')
+   //   document.getElementById('error_firstname').style.display='';
+
+  if(document.getElementById('user_lastname').value=='Last Name')
+      document.getElementById('error_lastname').style.display='';
+  else
+      document.getElementById('error_emailid').style.display='';
+}
+$(document).ready(function(){
+$('#user_firstname ,#user_lastname').keypress(function(key){
+  //var key = key.charCode;
+  if( (key.charCode >=65 &&  key.charCode <= 90) ||  (key.charCode >= 97 &&  key.charCode <= 122) )
+      ;
+  else
+      return false;
+});
+$('#user_contact').keypress(function(key){
+  if((key.charCode>=48 && key.charCode<=57 )|| (key.charCode==43))
+    ;
+  else
+    return false;
+});
+
+});
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTDXZw4TvfKogqUxSveg6w8098V-jUKBg&signed_in=true&libraries=places&callback=initAutocomplete"
+        async defer></script>
+
+{% endblock %}
+
+
+{%block content %}
+<div class="cont">
+  <div class="main">
+		<form action="/signupNext" method="post">
+		   <div class="lable">
+		        <div class="col_1_of_2 span_1_of_2">	<input type="text" class="text"  value="First Name" name="user_firstname"  pattern="^(?!.*First Name).*$"  oninvalid="setCustomValidity('Please Enter First Name')" oninput="setCustomValidity('')" onfocus="if (this.value == 'First Name') {this.value='';}" onblur="if (this.value == '') {this.value = 'First Name';}" ></div>
+                <div class="col_1_of_2 span_1_of_2"><input type="text" class="text"  value="Last Name" name="user_lastname" pattern="^(?!.*Last Name).*$"  oninvalid="setCustomValidity('Please enter Last Name')" onfocus="if (this.value == 'Last Name'){this.value='';}" oninput="setCustomValidity('')"onblur="if (this.value == '') {this.value = 'Last Name';}" ></div>
+                <div class="clear"> </div>
+		   </div>
+		   <div class="lable-2">
+		        <input type="email" class="text" id="user_emailid" value="your@email.com" name="user_emailid" pattern="^(?!.*your@email.com).*$"
+            oninvalid="setCustomValidity('Please enter Valid Email Id')" oninput="setCustomValidity('')" onfocus="if(this.value.substring(0,14)=='your@email.com'){this.value='';}" onblur="if (this.value == '') {this.value = 'your@email.com ';}">
+            {% if invalid  %}
+            <span>{{EmailId}} already exist</span>
+            {% endif %}            
+		        <input type="password" class="text" value="Passwo " name="user_password" pattern=".{6,}"
+            oninvalid="setCustomValidity('Please enter Password more than 5 character')" oninput="setCustomValidity('')" 
+            onfocus="if(this.value.substring(0,6) == 'Passwo'){this.value='';}" onblur="if (this.value == '') {this.value = 'Passwo ';}">
+		        <input type="text" class="text" value="Contact No" name="user_contact" id="user_contact" pattern="\+{1}\d{10,13}"
+            oninvalid="setCustomValidity('Please enter Valid Contact Number with country code')" oninput="setCustomValidity('')"
+             onfocus="if(this.value.substring(0,10) ==  'Contact No'){this.value='';}" onblur="if (this.value == '') {this.value = 'Contact No ';}">
+
+		        <input type="text" class="text" value="Address" id="autocomplete" name="user_address" pattern="^(?!.*Address).*$" 
+            oninvalid="setCustomValidity(' Address Required')" oninput="setCustomValidity('')"
+            onFocus="geolocate();" onblur="if (this.value == '') {this.value = 'Address';}" >
+		   </div>
+		  
+		   <h3>By creating an account, you agree to our <span class="term"><a href="#">Terms & Conditions</a></span></h3>
+		   <div class="submit">
+			  <input type="submit"  value="Create account" >
+		   </div>
+		   <div class="clear"> </div>
+		</form>
+		<!-----//end-main---->
+		</div>
+  </div>
+{%endblock %}
+
